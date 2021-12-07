@@ -74,7 +74,7 @@ CREATE TABLE IF NOT EXISTS grades(
 CREATE TABLE IF NOT EXISTS class_registrations(
 	class_registration_id INT NOT NULL AUTO_INCREMENT,
 	class_section_id INT NOT NULL,
-	student_id INT NOT NULL UNIQUE,
+	student_id INT NOT NULL,
 	grade_id INT,
 	signup_timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY (class_registration_id),
