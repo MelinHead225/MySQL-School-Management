@@ -17,7 +17,7 @@ DROP TABLE IF EXISTS classes
 DROP FUNCTION IF EXISTS convert_to_grade_point;
 
 CREATE TABLE IF NOT EXISTS classes(
-    class_id INT AUTO_INCREMENT,
+    class_id INT NOT NULL AUTO_INCREMENT,
     name VARCHAR(50) NOT NULL,
     description VARCHAR(1000),
     code VARCHAR(10) UNIQUE,
@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS classes(
 );
 
 CREATE TABLE IF NOT EXISTS students(
-    student_id INT AUTO_INCREMENT,
+    student_id INT NOT NULL AUTO_INCREMENT,
     first_name VARCHAR(30) NOT NULL,
     last_name VARCHAR(50) NOT NULL,
     birthdate DATE,
@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS instructors(
     instructor_id INT AUTO_INCREMENT NOT NULL,
     first_name  VARCHAR(80) NOT NULL,
     last_name VARCHAR(80) NOT NULL,
-    academic_title_id INT,
+    academic_title_id INT NOT NULL,
     PRIMARY KEY (instructor_id),
     FOREIGN KEY (academic_title_id) REFERENCES academic_titles(academic_title_id)
 );
@@ -82,3 +82,17 @@ CREATE TABLE IF NOT EXISTS class_registrations(
 	FOREIGN KEY (student_id) REFERENCES students(student_id),
 	FOREIGN KEY (grade_id) REFERENCES grades(grade_id)
 );
+
+DELIMITER $$ 
+CREATE FUNCTION convert_to_grade_point(letter_grade char(2)) 
+   RETURNS INT 
+   DETERMINISTIC 
+BEGIN 
+   IF (letter_grade = 'A') THEN return 4;
+   ELSEIF (letter_grade = 'B') THEN return 3;
+   ELSEIF (letter_grade = 'C') THEN return 2;
+   ELSEIF (letter_grade = 'D') THEN return 1;
+   ELSEIF (letter_grade = 'F') THEN return 0;
+   ELSEIF (letter_grade = NULL) THEN return NULL;
+   END IF;
+END $$ 
