@@ -107,3 +107,4 @@ ON terms.term_id = class_sections.term_id
 GROUP BY outer_class_registrations.class_section_id;
 
 
+ 
