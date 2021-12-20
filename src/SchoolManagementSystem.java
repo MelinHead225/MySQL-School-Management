@@ -112,12 +112,12 @@ public class SchoolManagementSystem {
 			/* Your logic goes here */
 			connection = Database.getDatabaseConnection();
             sqlStatement = connection.createStatement();
-            String query = "INSERT INTO class_registrations (class_section_id, student_id, grade_id)" +
+            String update = "INSERT INTO class_registrations (class_section_id, student_id, grade_id)" +
                     String.format("VALUES ('%s', '%s', 1)", classSectionID, studentId);
-            sqlStatement.executeUpdate(query);
-            String getClassRegistrationQuery = (
+            sqlStatement.executeUpdate(update);
+            String query = (
                     "SELECT * FROM class_registrations " +
-                            String.format("WHERE class_section_id='%s' AND student_id='%s'", classSectionID, studentId)
+                    String.format("WHERE class_section_id='%s' AND student_id='%s'", classSectionID, studentId)
             );
             result = sqlStatement.executeQuery(query);
             System.out.println("Class Registration ID | Student ID | Class Section ID");
