@@ -16,22 +16,22 @@ DROP TABLE IF EXISTS students;
 DROP TABLE IF EXISTS classes
 DROP FUNCTION IF EXISTS convert_to_grade_point;
 
-CREATE TABLE IF NOT EXISTS classes(
-    class_id INT NOT NULL AUTO_INCREMENT,
-    name VARCHAR(50) NOT NULL,
-    description VARCHAR(1000),
-    code VARCHAR(10) UNIQUE,
-    maximum_students INT DEFAULT 10,
-    PRIMARY KEY(class_id)
-);
+CREATE TABLE IF NOT EXISTS classes( 
+    class_id INT AUTO_INCREMENT, 
+    name VARCHAR(50) NOT NULL, 
+    description VARCHAR(1000), 
+    code VARCHAR(10) UNIQUE, 
+    maximum_students INT DEFAULT 10, 
+    PRIMARY KEY(class_id) 
+); 
 
-CREATE TABLE IF NOT EXISTS students(
-    student_id INT NOT NULL AUTO_INCREMENT,
-    first_name VARCHAR(30) NOT NULL,
-    last_name VARCHAR(50) NOT NULL,
-    birthdate DATE,
-    PRIMARY KEY (student_id)
-);
+CREATE TABLE IF NOT EXISTS students( 
+    student_id INT AUTO_INCREMENT, 
+    first_name VARCHAR(30) NOT NULL, 
+    last_name VARCHAR(50) NOT NULL, 
+    birthdate DATE, 
+    PRIMARY KEY (student_id) 
+); 
 
 CREATE TABLE IF NOT EXISTS academic_titles(
     academic_title_id INT AUTO_INCREMENT NOT NULL,
@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS instructors(
     instructor_id INT AUTO_INCREMENT NOT NULL,
     first_name  VARCHAR(80) NOT NULL,
     last_name VARCHAR(80) NOT NULL,
-    academic_title_id INT NOT NULL,
+    academic_title_id INT,
     PRIMARY KEY (instructor_id),
     FOREIGN KEY (academic_title_id) REFERENCES academic_titles(academic_title_id)
 );
@@ -82,7 +82,9 @@ CREATE TABLE IF NOT EXISTS class_registrations(
 	FOREIGN KEY (student_id) REFERENCES students(student_id),
 	FOREIGN KEY (grade_id) REFERENCES grades(grade_id)
 );
+ALTER TABLE class_registrations ADD CONSTRAINT unique_student_id_and_class_section_id UNIQUE (student_id, class_section_id);
 
+DROP FUNCTION convert_to_grade_point;
 DELIMITER $$ 
 CREATE FUNCTION convert_to_grade_point(letter_grade char(2)) 
    RETURNS INT 
